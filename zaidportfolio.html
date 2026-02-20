@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Zaid | Elite Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #22d3ee;
+            --neon-purple: #a855f7;
+        }
+        body { 
+            font-family: 'Syne', sans-serif; 
+            background-color: #020205; 
+            overflow-x: hidden;
+            color: #e2e8f0;
+        }
+
+        /* Animated Background Mesh */
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(34, 211, 238, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Glitch Effect for Name */
+        .glitch {
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                        -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                        0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 #ff0000, -0.05em -0.025em 0 #00ff00, 0.025em 0.05em 0 #0000ff; }
+            14% { text-shadow: 0.05em 0 0 #ff0000, -0.05em -0.025em 0 #00ff00, 0.025em 0.05em 0 #0000ff; }
+            15% { text-shadow: -0.05em -0.025em 0 #ff0000, 0.025em 0.025em 0 #00ff00, -0.05em -0.05em 0 #0000ff; }
+            49% { text-shadow: -0.05em -0.025em 0 #ff0000, 0.025em 0.025em 0 #00ff00, -0.05em -0.05em 0 #0000ff; }
+            50% { text-shadow: 0.025em 0.05em 0 #ff0000, 0.05em 0 0 #00ff00, 0 -0.05em 0 #0000ff; }
+            99% { text-shadow: 0.025em 0.05em 0 #ff0000, 0.05em 0 0 #00ff00, 0 -0.05em 0 #0000ff; }
+            100% { text-shadow: -0.025em 0 0 #ff0000, -0.025em -0.025em 0 #00ff00, -0.025em -0.05em 0 #0000ff; }
+        }
+
+        /* Floating Card with Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.15);
+            transform: translateY(-10px) rotateX(5deg);
+        }
+
+        /* Typing Animation */
+        .typing {
+            border-right: 2px solid var(--neon-cyan);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--neon-cyan); } }
+
+        .cgpa-circle {
+            background: conic-gradient(var(--neon-cyan) 80%, transparent 0);
+            border-radius: 50%;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center backdrop-blur-md">
+        <div class="text-2xl font-black tracking-tighter text-white">Z<span class="text-cyan-400">.</span>AID</div>
+        <div class="flex gap-8 text-[10px] font-bold uppercase tracking-[0.3em]">
+            <a href="#about" class="hover:text-cyan-400 transition">Identity</a>
+            <a href="#projects" class="hover:text-cyan-400 transition">Forge</a>
+            <a href="mailto:mdzaid2808@gmail.com" class="border border-cyan-400/50 px-4 py-2 rounded hover:bg-cyan-400 hover:text-black transition">Signal</a>
+        </div>
+    </nav>
+
+    <section class="h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-500/10 blur-[120px] rounded-full"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-500/10 blur-[120px] rounded-full"></div>
+
+        <p class="text-cyan-400 font-mono mb-4 tracking-widest text-sm uppercase">Initiating System.v2</p>
+        <h1 class="text-7xl md:text-[120px] font-black text-white leading-none mb-4 tracking-tighter">
+            ZAID <span class="glitch">MOHAMMED</span>
+        </h1>
+        <div class="h-8">
+            <p class="typing text-xl md:text-2xl font-mono text-slate-400">Software Developer & Logic Architect</p>
+        </div>
+
+        <div class="mt-16 flex gap-6">
+            <a href="#projects" class="bg-white text-black font-bold px-8 py-4 rounded-full hover:scale-110 transition">View My Forge</a>
+            <div class="glass-card px-8 py-4 rounded-full font-bold flex items-center gap-3">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                8.0 CGPA SECURED
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        <div class="md:col-span-2 glass-card p-10 rounded-[2.5rem]">
+            <h3 class="text-2xl font-bold mb-8 flex items-center gap-3 text-white">
+                <span class="w-8 h-[2px] bg-cyan-400"></span> Educational Matrix
+            </h3>
+            <div class="space-y-8">
+                <div class="flex justify-between items-start border-b border-white/5 pb-6">
+                    <div>
+                        <h4 class="text-xl font-bold text-white">Seshadri Rao Gudlavalleru Engineering College</h4>
+                        <p class="text-slate-500 font-mono text-sm mt-1">B.Tech - Computer Science • Year 1</p>
+                    </div>
+                    <span class="text-cyan-400 font-bold">ACTIVE</span>
+                </div>
+                <div class="flex justify-between items-start border-b border-white/5 pb-6 opacity-60">
+                    <div>
+                        <h4 class="text-lg">Narayana Junior College</h4>
+                        <p class="text-sm">Intermediate (MPC)</p>
+                    </div>
+                    <span class="text-slate-600">COMPLETED</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-10 rounded-[2.5rem] flex flex-col justify-between">
+            <h3 class="text-2xl font-bold text-white mb-6">Core Stack</h3>
+            <div class="flex flex-wrap gap-3">
+                <span class="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs font-bold hover:bg-cyan-400 hover:text-black transition">C PROGRAMMING</span>
+                <span class="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs font-bold hover:bg-cyan-400 hover:text-black transition">PYTHON</span>
+                <span class="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs font-bold hover:bg-cyan-400 hover:text-black transition">GIT/GITHUB</span>
+                <span class="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-xs font-bold hover:bg-cyan-400 hover:text-black transition">DATA STRUCTURES</span>
+            </div>
+            <div class="mt-10 pt-10 border-t border-white/5">
+                <p class="text-xs text-slate-500 uppercase tracking-widest mb-2 font-bold">Contact Node</p>
+                <p class="text-white font-mono">+91 9014898440</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-20 max-w-7xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-10">
+            <div class="glass-card p-12 rounded-[3rem] relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-cyan-400/10 rounded-full blur-3xl group-hover:bg-cyan-400/20 transition"></div>
+                <h4 class="text-xs font-mono text-cyan-400 mb-4 tracking-tighter uppercase">Project_01</h4>
+                <h3 class="text-4xl font-bold text-white mb-4">Library Logic <br>Engine</h3>
+                <p class="text-slate-400 leading-relaxed mb-8">Custom database architecture in C for optimized book tracking and member authentication.</p>
+                <a href="#" class="text-white font-bold text-sm border-b-2 border-cyan-400 pb-1">DECIPHER CODE →</a>
+            </div>
+            <div class="glass-card p-12 rounded-[3rem] relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl group-hover:bg-purple-400/20 transition"></div>
+                <h4 class="text-xs font-mono text-purple-400 mb-4 tracking-tighter uppercase">Project_02</h4>
+                <h3 class="text-4xl font-bold text-white mb-4">Academic <br>GPA Predictor</h3>
+                <p class="text-slate-400 leading-relaxed mb-8">Predictive algorithm to map out future semester outcomes based on current 8.0 CGPA metrics.</p>
+                <a href="#" class="text-white font-bold text-sm border-b-2 border-purple-400 pb-1">DECIPHER CODE →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-[10px] uppercase tracking-[1em] text-slate-600">Mohammed Zaid // Engineered for the Future // 2026</p>
+    </footer>
+
+</body>
+</html>
