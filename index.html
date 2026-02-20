@@ -3,490 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohammed Zaid | The Digital Architect</title>
+    <title>ZAID | THE LIMIT BREAKER</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bormi:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
 
     <style>
-        /* CUSTOM CORE CSS - THE "SECRET SAUCE" 
-           Line count badhane ke liye har animation detail mein likhi gayi hai.
-        */
         :root {
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --dark: #020617;
-            --card-bg: rgba(15, 23, 42, 0.8);
+            --neon-blue: #00f3ff;
+            --neon-purple: #9d00ff;
+            --bg-dark: #050505;
         }
 
         body {
-            background-color: var(--dark);
-            color: #f1f5f9;
-            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            cursor: none; /* Custom cursor loading */
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--dark); }
-        ::-webkit-scrollbar-thumb { 
-            background: linear-gradient(var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-        /* Floating Background Particles Simulation */
-        .bg-glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 242, 255, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(80px);
-            animation: moveGlow 20s infinite alternate;
-        }
+        .magnetic { display: inline-block; transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
 
-        @keyframes moveGlow {
-            0% { top: -10%; left: -10%; }
-            100% { top: 80%; left: 80%; }
-        }
-
-        /* Hero Text Animation - The "Zaid" Special */
-        .hero-title {
-            font-family: 'Syncopate', sans-serif;
-            background: linear-gradient(to right, #fff, var(--primary), #fff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 5s linear infinite;
-        }
-
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-
-        /* 3D Isometric Card Effect */
-        .iso-card {
-            transition: all 0.5s ease;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.015);
             backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
         }
 
-        .iso-card:hover {
-            transform: translateY(-15px) rotateX(10deg) rotateY(-5deg);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(0, 242, 255, 0.2);
+        .title-reveal { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
+
+        /* Custom Cursor Style */
+        #custom-cursor {
+            width: 15px; height: 15px; background: var(--neon-blue);
+            border-radius: 50%; position: fixed; pointer-events: none;
+            z-index: 9999; mix-blend-mode: difference; transition: transform 0.1s;
         }
 
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
+        .text-neon {
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
         }
 
-        /* Sections padding and animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Interactive Coding Text */
-        .code-snippet {
-            font-family: 'Space Mono', monospace;
-            background: #000;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid var(--secondary);
-            font-size: 14px;
-            color: #a5b4fc;
-        }
-
-        /* Timeline styling */
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -9px;
-            top: 10px;
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--primary);
-        }
-        
-        /* Stats counter styling */
-        .stat-circle {
-            width: 150px;
-            height: 150px;
-            border: 4px solid #1e293b;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.5s;
-        }
-        .stat-circle:hover { transform: rotate(360deg); }
-
-        /* Contact Form Floating Labels */
-        .input-group { position: relative; margin-bottom: 30px; }
-        .input-group input, .input-group textarea {
-            width: 100%;
-            background: none;
-            border: none;
-            border-bottom: 2px solid #1e293b;
-            padding: 10px 5px;
-            outline: none;
-            color: white;
-            transition: 0.3s;
-        }
-        .input-group label {
-            position: absolute;
-            top: 10px;
-            left: 5px;
-            pointer-events: none;
-            transition: 0.3s;
-            color: #64748b;
-        }
-        .input-group input:focus ~ label, .input-group input:valid ~ label {
-            top: -20px;
-            font-size: 12px;
-            color: var(--primary);
-        }
-        .input-group .bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: 0.3s;
-        }
-        .input-group input:focus ~ .bar { width: 100%; }
-
+        .section-header { font-family: 'Syncopate', sans-serif; letter-spacing: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="cursor" id="cursor"></div>
-    <div class="bg-glow"></div>
-    <div class="bg-glow" style="animation-delay: -10s; background: radial-gradient(circle, rgba(112, 0, 255, 0.15) 0%, transparent 70%);"></div>
+    <div id="custom-cursor"></div>
+    <canvas id="particleCanvas"></canvas>
 
-    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center bg-slate-950/50 backdrop-blur-xl border-b border-white/5">
-        <div class="text-2xl font-bold hero-title tracking-tighter">ZAID.TECH</div>
-        <div class="hidden lg:flex gap-10 items-center uppercase text-[11px] font-bold tracking-[0.2em]">
-            <a href="#home" class="hover:text-cyan-400 transition-all">01. Home</a>
-            <a href="#about" class="hover:text-cyan-400 transition-all">02. Origin</a>
-            <a href="#education" class="hover:text-cyan-400 transition-all">03. Academy</a>
-            <a href="#skills" class="hover:text-cyan-400 transition-all">04. Skills</a>
-            <a href="#projects" class="hover:text-cyan-400 transition-all">05. Forge</a>
-            <a href="#contact" class="px-6 py-2 border border-cyan-400 rounded-full text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all">Establish Contact</a>
+    <nav class="fixed top-0 w-full z-50 p-8 flex justify-between items-center mix-blend-difference">
+        <div class="text-xl font-bold tracking-tighter magnetic" id="logo">ZAID_01</div>
+        <div class="flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em]">
+            <a href="#about" class="hover:text-cyan-400 transition magnetic">Origin</a>
+            <a href="#projects" class="hover:text-cyan-400 transition magnetic">Forge</a>
+            <a href="mailto:mdzaid2808@gmail.com" class="hover:text-cyan-400 transition magnetic">Signal</a>
         </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex flex-col justify-center items-center px-6 relative">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
-            <h1 class="text-[200px] font-black uppercase tracking-widest text-white">ZAID</h1>
+    <section class="h-screen flex flex-col justify-center px-12 md:px-24">
+        <div class="title-reveal">
+            <h2 class="text-cyan-500 font-bold tracking-[0.8em] mb-4 text-xs reveal-text">SYSTEM INITIALIZED</h2>
         </div>
-        
-        <div class="text-center z-10">
-            <h3 class="text-cyan-400 font-bold tracking-[0.5em] mb-4 reveal">HELLO WORLD, I AM</h3>
-            <h1 class="text-6xl md:text-9xl font-black text-white hero-title mb-6 reveal">MOHAMMED <br> ZAID</h1>
-            <p class="text-slate-400 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed mb-10 reveal">
-                A Software Developer architecting solutions at the intersection of logic and creativity. 
-                Currently redefining the 1st year CSE landscape at <span class="text-white font-bold underline decoration-cyan-400">SRGEC</span>.
+        <h1 class="text-7xl md:text-[10rem] font-bold leading-none tracking-tighter mb-8 reveal-text" style="font-family: 'Syncopate';">
+            MOHAMMED <br> <span class="text-neon magnetic">ZAID</span>
+        </h1>
+        <div class="flex flex-col md:flex-row gap-10 items-start">
+            <p class="text-slate-500 max-w-md text-sm leading-relaxed border-l border-cyan-500/30 pl-6 reveal-text">
+                Software Developer. Logic Architect. Currently disrupting the status quo at Seshadri Rao Gudlavalleru College with a 8.0 CGPA performance metrics.
             </p>
-            <div class="flex flex-wrap justify-center gap-6 reveal">
-                <a href="#projects" class="px-10 py-4 bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform">Explore Work</a>
-                <a href="#contact" class="px-10 py-4 glass text-white border border-white/20 font-bold rounded-xl hover:bg-white/5 transition-all">View Github</a>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-40">
-            <i class="fa-solid fa-chevron-down text-2xl"></i>
-        </div>
-    </section>
-
-    <section class="py-10 bg-white/5 border-y border-white/5">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-                <h3 class="text-3xl font-bold text-white">8.0</h3>
-                <p class="text-xs text-cyan-400 uppercase font-bold mt-2">Current CGPA</p>
-            </div>
-            <div>
-                <h3 class="text-3xl font-bold text-white">10+</h3>
-                <p class="text-xs text-cyan-400 uppercase font-bold mt-2">Projects Forge</p>
-            </div>
-            <div>
-                <h3 class="text-3xl font-bold text-white">1st</h3>
-                <p class="text-xs text-cyan-400 uppercase font-bold mt-2">Year B.Tech</p>
-            </div>
-            <div>
-                <h3 class="text-3xl font-bold text-white">24/7</h3>
-                <p class="text-xs text-cyan-400 uppercase font-bold mt-2">Uptime Dev</p>
+            <div class="flex gap-4 items-center reveal-text">
+                <div class="w-12 h-[1px] bg-slate-700"></div>
+                <span id="scramble-text" class="text-cyan-400 font-bold uppercase tracking-widest text-xs">READY TO UPGRADE</span>
             </div>
         </div>
     </section>
 
-    <section id="about" class="py-32 px-6 max-w-7xl mx-auto">
-        <div class="grid lg:grid-cols-2 gap-20 items-center">
-            <div class="relative reveal">
-                <div class="absolute -top-10 -left-10 w-40 h-40 border-t-4 border-l-4 border-cyan-400 opacity-20"></div>
-                <h2 class="text-5xl font-bold text-white mb-8 tracking-tighter">The Visionary <br> Behind the Code</h2>
-                <p class="text-slate-400 text-lg leading-relaxed mb-6">
-                    Based in Vijayawada, I am a first-year Computer Science Engineering student driven by a relentless curiosity for how things work under the hood. My journey in technology isn't just about syntax; it's about solving real-world problems through elegant software architecture.
-                </p>
-                <div class="code-snippet">
-                    <span class="text-purple-400">const</span> zaid = { <br>
-                    &nbsp;&nbsp;role: <span class="text-cyan-400">"Software Developer"</span>, <br>
-                    &nbsp;&nbsp;location: <span class="text-cyan-400">"Vijayawada"</span>, <br>
-                    &nbsp;&nbsp;passionateAbout: [<span class="text-orange-400">"Logic"</span>, <span class="text-orange-400">"UI/UX"</span>, <span class="text-orange-400">"Optimization"</span>] <br>
-                    };
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4 reveal">
-                <div class="iso-card p-10 rounded-3xl">
-                    <i class="fa-solid fa-microchip text-4xl text-cyan-400 mb-6"></i>
-                    <h4 class="text-white font-bold mb-2">Architect</h4>
-                    <p class="text-xs text-slate-500">Designing systems from scratch with efficiency.</p>
-                </div>
-                <div class="iso-card p-10 rounded-3xl mt-12">
-                    <i class="fa-solid fa-code-merge text-4xl text-purple-400 mb-6"></i>
-                    <h4 class="text-white font-bold mb-2">Strategist</h4>
-                    <p class="text-xs text-slate-500">Optimizing code for maximum performance.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="py-32 bg-slate-900/30">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center text-white mb-20 reveal">Educational Matrix</h2>
-            <div class="relative border-l-2 border-slate-800 ml-4 space-y-16">
-                <div class="pl-12 relative timeline-item reveal">
-                    <h3 class="text-2xl font-bold text-white">B.Tech in Computer Science</h3>
-                    <p class="text-cyan-400 font-bold uppercase text-xs tracking-widest mt-1">Seshadri Rao Gudlavalleru Engineering College</p>
-                    <p class="text-slate-500 mt-4 leading-relaxed">Currently maintaining an 8.0 CGPA in the first year. Immersed in C programming, Engineering Mathematics, and Computer Fundamentals.</p>
-                    <span class="absolute -left-[140px] top-2 text-slate-700 font-bold">2025 - PRESENT</span>
-                </div>
-                <div class="pl-12 relative timeline-item reveal opacity-70">
-                    <h3 class="text-2xl font-bold text-white">Intermediate (MPC)</h3>
-                    <p class="text-purple-400 font-bold uppercase text-xs tracking-widest mt-1">Narayana Junior College</p>
-                    <p class="text-slate-500 mt-4">Focused on core sciences and mathematics, laying the foundation for engineering logic.</p>
-                    <span class="absolute -left-[140px] top-2 text-slate-700 font-bold">2023 - 2025</span>
-                </div>
-                <div class="pl-12 relative timeline-item reveal opacity-50">
-                    <h3 class="text-2xl font-bold text-white">Secondary Education</h3>
-                    <p class="text-slate-400 font-bold uppercase text-xs tracking-widest mt-1">DIHS School</p>
-                    <p class="text-slate-500 mt-4">Early exposure to basic computing and logical problem solving.</p>
-                    <span class="absolute -left-[140px] top-2 text-slate-700 font-bold">GRAD 2023</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="py-32 px-6 max-w-7xl mx-auto">
-        <div class="text-center mb-20 reveal">
-            <h2 class="text-4xl font-bold text-white mb-4">Technical Proficiency</h2>
-            <p class="text-slate-500 uppercase tracking-widest text-sm">Crafting with the latest industry standards</p>
-        </div>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 reveal">
-            <div class="glass-card p-10 rounded-3xl border border-white/5 hover:border-cyan-400/50 transition-all text-center group">
-                <div class="w-20 h-20 bg-cyan-400/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-c text-3xl text-cyan-400"></i>
-                </div>
-                <h4 class="text-white font-bold">C Programming</h4>
-                <div class="w-full bg-slate-800 h-1 mt-6 rounded-full overflow-hidden">
-                    <div class="bg-cyan-400 h-full w-[85%]"></div>
-                </div>
-            </div>
-            <div class="glass-card p-10 rounded-3xl border border-white/5 hover:border-purple-400/50 transition-all text-center group">
-                <div class="w-20 h-20 bg-purple-400/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-brands fa-python text-3xl text-purple-400"></i>
-                </div>
-                <h4 class="text-white font-bold">Python</h4>
-                <div class="w-full bg-slate-800 h-1 mt-6 rounded-full overflow-hidden">
-                    <div class="bg-purple-400 h-full w-[70%]"></div>
-                </div>
-            </div>
-            <div class="glass-card p-10 rounded-3xl border border-white/5 hover:border-orange-400/50 transition-all text-center group">
-                <div class="w-20 h-20 bg-orange-400/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-brands fa-git-alt text-3xl text-orange-400"></i>
-                </div>
-                <h4 class="text-white font-bold">Git & Versioning</h4>
-                <div class="w-full bg-slate-800 h-1 mt-6 rounded-full overflow-hidden">
-                    <div class="bg-orange-400 h-full w-[80%]"></div>
-                </div>
-            </div>
-            <div class="glass-card p-10 rounded-3xl border border-white/5 hover:border-blue-400/50 transition-all text-center group">
-                <div class="w-20 h-20 bg-blue-400/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-database text-3xl text-blue-400"></i>
-                </div>
-                <h4 class="text-white font-bold">Logic Building</h4>
-                <div class="w-full bg-slate-800 h-1 mt-6 rounded-full overflow-hidden">
-                    <div class="bg-blue-400 h-full w-[90%]"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-32 bg-white/[0.02]">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold text-white mb-20 reveal">Project Forge</h2>
-            <div class="grid lg:grid-cols-2 gap-10">
-                <div class="group relative overflow-hidden rounded-[2.5rem] iso-card reveal">
-                    <div class="p-12">
-                        <span class="text-cyan-400 font-bold text-xs uppercase tracking-widest">Database Utility</span>
-                        <h3 class="text-3xl font-bold text-white mt-4 mb-6">Library System 2.0</h3>
-                        <p class="text-slate-400 leading-relaxed mb-8">
-                            A high-performance file management system built in C, optimizing how student records and books are tracked within a college environment.
-                        </p>
-                        <div class="flex gap-4">
-                            <i class="fa-brands fa-github text-2xl hover:text-cyan-400 cursor-pointer"></i>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-2xl hover:text-cyan-400 cursor-pointer"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="group relative overflow-hidden rounded-[2.5rem] iso-card reveal" style="transition-delay: 0.2s;">
-                    <div class="p-12">
-                        <span class="text-purple-400 font-bold text-xs uppercase tracking-widest">Academic Tool</span>
-                        <h3 class="text-3xl font-bold text-white mt-4 mb-6">GPA Analytics Engine</h3>
-                        <p class="text-slate-400 leading-relaxed mb-8">
-                            Predictive calculator that processes current semester scores to forecast overall CGPA trends for CSE students.
-                        </p>
-                        <div class="flex gap-4">
-                            <i class="fa-brands fa-github text-2xl hover:text-purple-400 cursor-pointer"></i>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-2xl hover:text-purple-400 cursor-pointer"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-32 px-6 max-w-7xl mx-auto">
+    <section id="about" class="py-40 px-6 max-w-7xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-20">
-            <div class="reveal">
-                <h2 class="text-5xl font-bold text-white mb-8 tracking-tighter">Ready to <br> Build Something?</h2>
-                <p class="text-slate-500 text-lg mb-12 italic">Currently open to internship opportunities and collaborative projects.</p>
-                
-                <div class="space-y-8">
-                    <div class="flex items-center gap-6 group">
-                        <div class="w-14 h-14 glass flex items-center justify-center rounded-2xl border border-white/5 group-hover:border-cyan-400 transition-all">
-                            <i class="fa-solid fa-envelope text-cyan-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Email Node</p>
-                            <a href="mailto:mdzaid2808@gmail.com" class="text-white text-xl font-bold hover:text-cyan-400">mdzaid2808@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-6 group">
-                        <div class="w-14 h-14 glass flex items-center justify-center rounded-2xl border border-white/5 group-hover:border-purple-400 transition-all">
-                            <i class="fa-solid fa-phone text-purple-400"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs text-slate-500 uppercase font-bold tracking-widest">Direct Line</p>
-                            <a href="tel:9014898440" class="text-white text-xl font-bold hover:text-purple-400">+91 9014898440</a>
-                        </div>
-                    </div>
+            <div class="glass-panel p-16 rounded-[4rem] relative overflow-hidden group">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-[100px] group-hover:bg-cyan-500/20 transition-all duration-700"></div>
+                <h3 class="section-header text-xs mb-10 text-slate-500">INTEL_STATS</h3>
+                <div class="flex items-baseline gap-4 mb-4">
+                    <h2 class="text-9xl font-bold text-white tracking-tighter">8.0</h2>
+                    <span class="text-cyan-500 font-bold">CGPA</span>
+                </div>
+                <p class="text-slate-400 mb-8 max-w-xs">Elite academic performance secured in 1st Semester, CSE Department @ SRGEC.</p>
+                <div class="flex gap-2">
+                    <div class="h-1 w-20 bg-cyan-500"></div>
+                    <div class="h-1 w-10 bg-slate-800"></div>
+                    <div class="h-1 w-5 bg-slate-800"></div>
                 </div>
             </div>
 
-            <div class="glass-card p-12 rounded-[3rem] reveal">
-                <form onsubmit="return false">
-                    <div class="input-group">
-                        <input type="text" required>
-                        <span class="bar"></span>
-                        <label>Your Name</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="email" required>
-                        <span class="bar"></span>
-                        <label>Your Email</label>
-                    </div>
-                    <div class="input-group">
-                        <textarea rows="4" required></textarea>
-                        <span class="bar"></span>
-                        <label>Message / Project Vision</label>
-                    </div>
-                    <button class="w-full py-4 bg-cyan-400 text-black font-black uppercase tracking-widest rounded-xl hover:bg-white hover:scale-[0.98] transition-all">
-                        Transmit Signal
-                    </button>
-                </form>
+            <div class="flex flex-col justify-center space-y-12">
+                <div class="reveal-scroll">
+                    <h4 class="text-slate-500 text-xs font-bold mb-2 tracking-widest">CURRENT_LOCATION</h4>
+                    <p class="text-2xl text-white font-bold">Vijayawada, India</p>
+                </div>
+                <div class="reveal-scroll">
+                    <h4 class="text-slate-500 text-xs font-bold mb-2 tracking-widest">EDUCATION_HISTORY</h4>
+                    <ul class="space-y-4">
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2">
+                            <span>SRGEC (B.Tech CSE)</span>
+                            <span class="text-cyan-500">2025+</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-white/5 pb-2 opacity-60">
+                            <span>Narayana Jr College</span>
+                            <span>2023-25</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-20 border-t border-white/5 text-center px-6">
-        <div class="text-2xl font-bold hero-title tracking-tighter mb-8">ZAID.TECH</div>
-        <div class="flex justify-center gap-10 mb-10 text-slate-500 text-sm font-bold uppercase tracking-widest">
-            <a href="#" class="hover:text-cyan-400 transition">LinkedIn</a>
-            <a href="#" class="hover:text-cyan-400 transition">GitHub</a>
-            <a href="#" class="hover:text-cyan-400 transition">Twitter</a>
+    <section id="projects" class="py-40 px-6 overflow-hidden">
+        <h2 class="section-header text-center text-xs text-slate-500 mb-24">CORE_PROJECTS</h2>
+        <div class="flex flex-nowrap gap-10" id="project-slider">
+            <div class="min-w-[400px] md:min-w-[600px] h-[400px] glass-panel rounded-[3rem] p-12 flex flex-col justify-between group cursor-pointer">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-4xl font-bold text-white group-hover:text-cyan-400 transition-colors">Library <br>Engine v1.0</h3>
+                    <span class="font-mono text-xs text-slate-500">01</span>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-6">Advanced record persistence utility developed in C, featuring optimized memory mapping for SRGEC databases.</p>
+                    <div class="text-[10px] font-bold text-cyan-400 tracking-[0.3em]">C_CORE // DATA_STRUCT</div>
+                </div>
+            </div>
+            <div class="min-w-[400px] md:min-w-[600px] h-[400px] glass-panel rounded-[3rem] p-12 flex flex-col justify-between group cursor-pointer">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-4xl font-bold text-white group-hover:text-cyan-400 transition-colors">GPA <br>Predictor</h3>
+                    <span class="font-mono text-xs text-slate-500">02</span>
+                </div>
+                <div>
+                    <p class="text-slate-400 mb-6">Mathematics-driven algorithm to analyze semester trends and project future CGPA metrics for CSE students.</p>
+                    <div class="text-[10px] font-bold text-cyan-400 tracking-[0.3em]">LOGIC_BUILDING // MATH_v1</div>
+                </div>
+            </div>
         </div>
-        <p class="text-slate-700 text-[10px] uppercase tracking-[1em]">DESIGNED & ENGINEERED BY MOHAMMED ZAID © 2026</p>
+    </section>
+
+    <section id="contact" class="py-40 px-6 max-w-4xl mx-auto text-center">
+        <h2 class="section-header text-xs text-slate-500 mb-10">OPEN_PROTOCOL</h2>
+        <div class="glass-panel p-16 rounded-[4rem]">
+            <h3 class="text-4xl md:text-6xl font-bold mb-10 tracking-tighter">Ready to <span class="text-cyan-500">Evolve?</span></h3>
+            <div class="flex flex-col md:flex-row justify-center gap-10">
+                <div class="group">
+                    <p class="text-xs text-slate-500 uppercase mb-2">Secure Email</p>
+                    <a href="mailto:mdzaid2808@gmail.com" class="text-xl font-bold hover:text-cyan-400 transition">mdzaid2808@gmail.com</a>
+                </div>
+                <div class="group">
+                    <p class="text-xs text-slate-500 uppercase mb-2">Direct Link</p>
+                    <a href="tel:9014898440" class="text-xl font-bold hover:text-cyan-400 transition">9014898440</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5">
+        <p class="text-[8px] tracking-[1.5em] text-slate-700 uppercase">MOHAMMED ZAID // LIMIT BREAKER // © 2026</p>
     </footer>
 
     <script>
-        // Custom Cursor Logic
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+        // --- 1. PARTICLE SYSTEM (Canvas) ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        // Reveal Animation Logic
-        window.addEventListener('scroll', reveal);
-        function reveal() {
-            var reveals = document.querySelectorAll('.reveal');
-            for (var i = 0; i < reveals.length; i++) {
-                var windowheight = window.innerHeight;
-                var revealtop = reveals[i].getBoundingClientRect().top;
-                var revealpoint = 150;
-                if (revealtop < windowheight - revealpoint) {
-                    reveals[i].classList.add('active');
-                }
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.3)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
-        
-        // Initial call for home section
-        window.onload = () => {
-            reveal();
-            console.log("System Initialized: Zaid Portfolio V2.0 Online");
-        };
 
-        // Smooth Scroll Enhancement
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        function initParticles() {
+            for (let i = 0; i < 150; i++) particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles(); animateParticles();
+
+        // --- 2. GSAP ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor Movement
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+        });
+
+        // Magnetic Effect
+        document.querySelectorAll('.magnetic').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(el, { x: 0, y: 0, duration: 0.3 });
             });
         });
 
-        /* EXTENDED SCRIPT LOGIC FOR DEPTH 
-           - Adding more lines to ensure 1000+ spirit
-        */
-        const consoleLogStyle = "color: #00f2ff; font-size: 16px; font-weight: bold;";
-        console.log("%c ZAID.TECH v2.0 READY ", consoleLogStyle);
+        // Hero Text Entrance
+        gsap.from(".reveal-text", {
+            y: 100, opacity: 0, duration: 1, stagger: 0.2, ease: "power4.out"
+        });
+
+        // Scroll Reveal
+        gsap.utils.toArray('.reveal-scroll').forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: { trigger: section, start: "top 90%" },
+                y: 50, opacity: 0, duration: 1, ease: "power3.out"
+            });
+        });
+
+        // Horizontal Project Scroll
+        gsap.to("#project-slider", {
+            xPercent: -20,
+            scrollTrigger: {
+                trigger: "#projects",
+                scrub: 1,
+                start: "top center",
+                end: "bottom top"
+            }
+        });
+
+        // Text Scramble Logic
+        const scramble = document.getElementById('scramble-text');
+        const words = ["SYSTEM ACTIVE", "LOGIC BY ZAID", "8.0 CGPA READY", "SRGEC ELITE"];
+        let counter = 0;
+        setInterval(() => {
+            scramble.innerText = words[counter % words.length];
+            counter++;
+        }, 3000);
+
     </script>
 </body>
 </html>
